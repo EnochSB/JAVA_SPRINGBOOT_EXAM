@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.mapper.BoardTestMapper">
+
+<!-- 게시물 목록 보기 -->
+<select id="list" resultType="com.board.dto.BoardTestDTO">
+	select seqno,writer,title,to_char(regdate,'YYYY-MM-DD HH24:MI:SS') as regdate
+		from tbl_board order by seqno desc
+</select>
+
+<!-- 게시물 내용 보기 -->
+<select id="view" parameterType="int" resultType="com.board.dto.BoardTestDTO">
+	select seqno,writer,title,to_char(regdate,'YYYY-MM-DD HH24:MI:SS') as regdate,content
+		from tbl_board where seqno = #{seqno}
+</select>
+
+<!-- 게시물 등록 -->
+<insert id="write" parameterType="com.board.dto.BoardTestDTO">
+	insert into tbl_board (writer,title,content)
+		values (#{writer},#{title},#{content})
+</insert>
+
+<!-- 게시물 수정 -->
+<update id="modify" parameterType="com.board.dto.BoardTestDTO">
+	update tbl_board set writer=#{writer},title=#{title},content=#{content}
+	where seqno=#{seqno}
+</update>
+
+<!-- 게시물 삭제 -->
+<delete id="delete" parameterType="int">
+	delete from tbl_board where seqno=#{seqno}
+</delete>
+</mapper>
